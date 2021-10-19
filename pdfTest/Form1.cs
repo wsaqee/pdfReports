@@ -354,7 +354,7 @@ namespace pdfTest
                         //principal is user
                         ReportGenerator.AddMember(grp.GroupDomain, grp.GroupName,
                             usr.DisplayName, usr.SamAccountName, usr.EmailAddress,
-                            usr.GetCountry(), usr.GetDepartment(),
+                            usr.GetDepartment(),
                             usr.Enabled == true ? "Aktiviran" : "Deaktiviran") ;
                         //Debug.WriteLine("{0} {1} {2} {3}", usr.DisplayName, usr.SamAccountName, usr.EmailAddress, usr.Enabled);
                     }

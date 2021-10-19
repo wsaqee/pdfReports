@@ -198,10 +198,10 @@ namespace pdfTest
             Column colNum = tb.AddColumn(Unit.FromMillimeter(5));
             Column colDispName = tb.AddColumn(Unit.FromMillimeter(32));
             Column colUsrName = tb.AddColumn(Unit.FromMillimeter(25));
-            Column colEmail = tb.AddColumn(Unit.FromMillimeter(40));
-            Column colCountry = tb.AddColumn(Unit.FromMillimeter(22));
-            Column colDep = tb.AddColumn(Unit.FromMillimeter(26));
-            Column colUsrEnabled = tb.AddColumn(Unit.FromMillimeter(15));
+            Column colEmail = tb.AddColumn(Unit.FromMillimeter(55));
+            //Column colCountry = tb.AddColumn(Unit.FromMillimeter(22));
+            Column colDep = tb.AddColumn(Unit.FromMillimeter(31));
+            Column colUsrEnabled = tb.AddColumn(Unit.FromMillimeter(17));
 
             //caption and desc
             Row rowCaption = tb.AddRow();
@@ -228,7 +228,7 @@ namespace pdfTest
             Cell cellDispName = rowColNames[colDispName.Index];
             Cell cellUserName = rowColNames[colUsrName.Index];
             Cell cellEmail = rowColNames[colEmail.Index];
-            Cell cellCountry = rowColNames[colCountry.Index];
+            //Cell cellCountry = rowColNames[colCountry.Index];
             Cell cellDep = rowColNames[colDep.Index];
             Cell cellUsrEnabled = rowColNames[colUsrEnabled.Index];
 
@@ -237,7 +237,7 @@ namespace pdfTest
             Paragraph parDispName = cellDispName.AddParagraph("Naziv korisnika");
             Paragraph parUsername = cellUserName.AddParagraph("ID korisnika");
             Paragraph parEmail = cellEmail.AddParagraph("Email adresa");
-            Paragraph parCountry = cellCountry.AddParagraph("Država");
+            //Paragraph parCountry = cellCountry.AddParagraph("Država");
             Paragraph parDep = cellDep.AddParagraph("Odjel");
             Paragraph parUsrEnabled = cellUsrEnabled.AddParagraph("Status");
 
@@ -245,30 +245,34 @@ namespace pdfTest
         }
 
         public static void AddMember(string usrDomain, string tableName, string dispName,
-            string usrName, string usrEmail, string usrCountry, string usrDep,string usrEnabled)
+            string usrName, string usrEmail, string usrDep,string usrEnabled)
         {
             if (usrDomain == null) usrDomain = "?";
             if (dispName == null) dispName = "";
             if (usrName == null) usrName = "";
             if (usrEmail == null) usrEmail = "";
-            if (usrCountry == null) usrCountry = "";
+            //if (usrCountry == null) usrCountry = "";
             if (usrDep == null) usrDep = "";
             if (usrEnabled == null) usrEnabled = "?";
             Table tb = tables.Where(x => x.Tag.ToString() == usrDomain+"\\"+tableName).First();
             Row rowMbr = tb.AddRow();
             rowMbr.Format = tbFormatText.Clone();
+            rowMbr.Height = "0.4cm";
+            rowMbr.Borders.Top.Width = 0;
+            rowMbr.Borders.Bottom.Width = 0;
             rowMbr.VerticalAlignment = VerticalAlignment.Center;
 
             Cell cellNum = rowMbr[0];
             Cell cellDispName = rowMbr[1];
             Cell cellUserName = rowMbr[2];
             Cell cellEmail = rowMbr[3];
-            Cell cellCountry = rowMbr[4];
-            Cell cellDep = rowMbr[5];
-            Cell cellUsrEnabled = rowMbr[6];
+            //Cell cellCountry = rowMbr[4];
+            Cell cellDep = rowMbr[4];
+            Cell cellUsrEnabled = rowMbr[5];
 
             cellNum.AddParagraph((tb.Rows.Count-2).ToString());
             if (tb.Rows.Count % 2 != 0) rowMbr.Shading.Color = Colors.LightGray;
+            else rowMbr.Shading.Color = Colors.White;
             cellNum.Format.Alignment = ParagraphAlignment.Center;
             //cellNum.Format.RightIndent = 8;
             cellNum.Format.Font.Bold = false;
@@ -281,7 +285,7 @@ namespace pdfTest
             cellUserName.Format.Alignment = ParagraphAlignment.Center;
 
 
-            int MAXCHARCOUNT_EMAIL = 25;
+            int MAXCHARCOUNT_EMAIL = 35;
             if (usrEmail.Length>0 && usrEmail.Length > MAXCHARCOUNT_EMAIL)
             {
                 string[] mailDivAt = usrEmail.Split('@');
@@ -311,8 +315,8 @@ namespace pdfTest
             cellEmail.AddParagraph(usrEmail);
             cellEmail.Format.Alignment = ParagraphAlignment.Center;
 
-            cellCountry.AddParagraph(usrCountry);
-            cellCountry.Format.Alignment = ParagraphAlignment.Center;
+            //cellCountry.AddParagraph(usrCountry);
+            //cellCountry.Format.Alignment = ParagraphAlignment.Center;
 
             cellDep.AddParagraph(usrDep);
             cellDep.Format.Alignment = ParagraphAlignment.Center;
