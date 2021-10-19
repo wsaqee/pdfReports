@@ -340,7 +340,7 @@ namespace pdfTest
                 ReportGenerator.CreateNewTable(grp.GroupDomain, grp.GroupName, grp.GroupDescription);
                 //Debug.WriteLine(grp.GroupName);
 
-                foreach (Principal p in grp.GroupItem.GetMembers())
+                foreach (Principal p in grp.GroupItem.GetMembers().OrderBy(usr => usr.DisplayName))
                 {
                     UserPrincipal usr = p as UserPrincipal;
                     if (usr == null)
