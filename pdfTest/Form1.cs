@@ -286,7 +286,8 @@ namespace pdfTest
 
         private void buttonRemoveItem_Click(object sender, EventArgs e)
         {
-            reportGroups.RemoveAt(listBox2.SelectedIndex);
+            //reportGroups.RemoveAt(listBox2.SelectedIndex);
+            reportGroups.Remove(reportGroups.SingleOrDefault (x => x.GroupName == listBox2.SelectedItem.ToString()));
         }
 
         private void buttonPrint_Click(object sender, EventArgs e)

@@ -43,8 +43,14 @@
             this.buttonRemoveItem = new System.Windows.Forms.Button();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.buttonPrint = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.postavkeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.podesiAtributeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.izveziKaoCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.izlazToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -199,6 +205,44 @@
             this.buttonPrint.UseVisualStyleBackColor = true;
             this.buttonPrint.Click += new System.EventHandler(this.buttonPrint_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.postavkeToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(663, 24);
+            this.menuStrip1.TabIndex = 18;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // postavkeToolStripMenuItem
+            // 
+            this.postavkeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.podesiAtributeToolStripMenuItem,
+            this.izveziKaoCsvToolStripMenuItem,
+            this.izlazToolStripMenuItem});
+            this.postavkeToolStripMenuItem.Name = "postavkeToolStripMenuItem";
+            this.postavkeToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
+            this.postavkeToolStripMenuItem.Text = "Postavke";
+            // 
+            // podesiAtributeToolStripMenuItem
+            // 
+            this.podesiAtributeToolStripMenuItem.Name = "podesiAtributeToolStripMenuItem";
+            this.podesiAtributeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.podesiAtributeToolStripMenuItem.Text = "Podesi atribute";
+            // 
+            // izveziKaoCsvToolStripMenuItem
+            // 
+            this.izveziKaoCsvToolStripMenuItem.Name = "izveziKaoCsvToolStripMenuItem";
+            this.izveziKaoCsvToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.izveziKaoCsvToolStripMenuItem.Text = "Izvezi kao csv";
+            // 
+            // izlazToolStripMenuItem
+            // 
+            this.izlazToolStripMenuItem.Name = "izlazToolStripMenuItem";
+            this.izlazToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.izlazToolStripMenuItem.Text = "Izlaz";
+            // 
             // Form1
             // 
             this.AcceptButton = this.button1Search;
@@ -207,13 +251,18 @@
             this.ClientSize = new System.Drawing.Size(663, 475);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Form1";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -234,6 +283,11 @@
         private System.Windows.Forms.Button buttonRemoveItem;
         private System.Windows.Forms.ListBox listBox2;
         private System.Windows.Forms.Button buttonPrint;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem postavkeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem podesiAtributeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem izveziKaoCsvToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem izlazToolStripMenuItem;
     }
 }
 
