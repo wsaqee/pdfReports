@@ -23,6 +23,7 @@ namespace pdfTest
         public static string reportName;
         private string adUsrName = null;
         private string adUsrPass = null;
+        private List<string> listAdObjectAttributes;
 
 
         private string GetCurrentDomainPath()
@@ -97,8 +98,6 @@ namespace pdfTest
             ////    // Using the index zero (0) is required!
             ////    Debug.WriteLine(sr.Properties["name"][0].ToString());
             ////}
-
-
 
         }
 
@@ -286,7 +285,6 @@ namespace pdfTest
 
         private void buttonRemoveItem_Click(object sender, EventArgs e)
         {
-            //reportGroups.RemoveAt(listBox2.SelectedIndex);
             reportGroups.Remove(reportGroups.SingleOrDefault (x => x.GroupName == listBox2.SelectedItem.ToString()));
         }
 
@@ -378,6 +376,21 @@ namespace pdfTest
             
             
             
+        }
+
+        private void podesiAtributeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form4 fmAtr = new Form4();
+            DialogResult dr = fmAtr.ShowDialog(this);
+            if (dr == DialogResult.Cancel)
+            {
+                return;
+            }
+            else if (dr == DialogResult.OK)
+            {
+                listAdObjectAttributes = fmAtr.getAttributes();
+                fmAtr.Close();
+            }
         }
     }
 }

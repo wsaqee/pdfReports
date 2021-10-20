@@ -230,6 +230,7 @@
             this.podesiAtributeToolStripMenuItem.Name = "podesiAtributeToolStripMenuItem";
             this.podesiAtributeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.podesiAtributeToolStripMenuItem.Text = "Podesi atribute";
+            this.podesiAtributeToolStripMenuItem.Click += new System.EventHandler(this.podesiAtributeToolStripMenuItem_Click);
             // 
             // izveziKaoCsvToolStripMenuItem
             // 
