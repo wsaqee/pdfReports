@@ -237,6 +237,7 @@
             this.izveziKaoCsvToolStripMenuItem.Name = "izveziKaoCsvToolStripMenuItem";
             this.izveziKaoCsvToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.izveziKaoCsvToolStripMenuItem.Text = "Izvezi kao csv";
+            this.izveziKaoCsvToolStripMenuItem.Click += new System.EventHandler(this.izveziKaoCsvToolStripMenuItem_Click);
             // 
             // izlazToolStripMenuItem
             // 

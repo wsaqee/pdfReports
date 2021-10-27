@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,8 @@ using System.DirectoryServices;
 using System.DirectoryServices.AccountManagement;
 using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text;
@@ -391,6 +394,57 @@ namespace pdfTest
                 listAdObjectAttributes = fmAtr.getAttributes();
                 fmAtr.Close();
             }
+        }
+
+        private void izveziKaoCsvToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            foreach (Group grp in reportGroups)
+            {
+                //Debug.WriteLine(grp.GroupName);
+
+                using (DirectoryEntry entry = new DirectoryEntry("LDAP://" + comboBoxDomains.Text, "mnestic", "mn2021."))
+                {
+                    DirectorySearcher searcher = new DirectorySearcher(entry);
+
+                    //AD group search filter set-up
+                    searcher.Filter = "(&(memberOf:1.2.840.113556.1.4.1941:=CN=" + grp.GroupName +",OU=GRP,OU=ZG,OU=EU,DC=dummy,DC=org))";
+                    //"(&(ObjectClass=group)(name=" + gName + "))";
+                    foreach (string item in listAdObjectAttributes)
+                    {
+                        searcher.PropertiesToLoad.Add(item);
+                    }
+                    SearchResultCollection results = searcher.FindAll();
+
+                    StringBuilder strbuild = new StringBuilder();
+                    foreach (string item in listAdObjectAttributes)
+                    {
+                        strbuild.Append(item + ";");
+                    }
+                    strbuild.Remove(strbuild.Length - 1, 1);
+                    strbuild.AppendLine();
+                    foreach (SearchResult usr in results)
+                    {
+                        //from returned query, find group principal object and add it to list
+                        foreach (string item in listAdObjectAttributes)
+                        {
+                            if (usr.Properties.Contains(item) == true)
+                                strbuild.Append(usr.Properties[item][0].ToString());
+                            strbuild.Append(";");
+
+                        }
+                        strbuild.Remove(strbuild.Length - 1, 1);
+                        strbuild.AppendLine();
+                    }
+                    strbuild.Remove(strbuild.Length - 2, 2);
+                    #if DEBUG
+                        Debug.WriteLine(strbuild);
+                    #endif
+                    System.IO.File.WriteAllText(@grp.GroupName + ".csv", strbuild.ToString());
+                }
+
+            }
+
         }
     }
 }
