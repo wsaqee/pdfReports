@@ -12,6 +12,7 @@ namespace pdfTest
 {
     public partial class Form4 : Form
     {
+        private AdAttributeFileRW AttributeCtrl;
         public Form4()
         {
             InitializeComponent();
@@ -19,46 +20,28 @@ namespace pdfTest
 
         private void Form4_Load(object sender, EventArgs e)
         {
-            string[] attributes_lines = System.IO.File.ReadAllLines(@"AdObjectAttributes.txt");
+            //load attributes from path
+            AttributeCtrl = new AdAttributeFileRW(Properties.Resources.adAttributesPath);
 
-            foreach (string line in attributes_lines)
+            //populate checkbox list from attribute list
+            foreach (AdAttribute item in AttributeCtrl.AdAttributes)
             {
-                if (line != null && line.Length > 0)
-                {
-                    string [] args = line.Split('\t');
-                    if (args != null && args.Count() == 2)
-                    {
-                        string name = args[0];
-                        bool _checked = false;
-                        if (args[1].ToLower().Equals("true")) _checked = true;
-
-                        checkedListAttributes.Items.Add(name, _checked);
-                    }
-                    
-
-                    
-                }
-                    
-
-                 
+                checkedListAttributes.Items.Add(item.Name, item.Enabled);
             }
         }
 
         private void Form4_FormClosing(object sender, FormClosingEventArgs e)
         {
-            StringBuilder str = new StringBuilder();
-            for (int i=0; i < checkedListAttributes.Items.Count; i++)
+            //sync attribute list with checkbox list
+            for (int i=0; i<checkedListAttributes.Items.Count; i++)
             {
-                str.AppendLine(checkedListAttributes.Items[i].ToString() + '\t' + checkedListAttributes.GetItemChecked(i).ToString());
+                int indx = AttributeCtrl.AdAttributes.FindIndex(x => x.Name == checkedListAttributes.Items[i].ToString());
+                if (indx != -1) AttributeCtrl.AdAttributes[i].Enabled = checkedListAttributes.GetItemChecked(i);
             }
-            System.IO.File.WriteAllText(@"AdObjectAttributes.txt", str.ToString());
-
+            //write attributes to file
+            AttributeCtrl.WriteFile();
+            //close dialog
             this.DialogResult = DialogResult.OK;
-        }
-
-        public List<string> getAttributes()
-        {
-            return checkedListAttributes.CheckedItems.OfType<string>().ToList();
         }
     }
 }

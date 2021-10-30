@@ -26,7 +26,6 @@ namespace pdfTest
         public static string reportName;
         private string adUsrName = null;
         private string adUsrPass = null;
-        private List<string> listAdObjectAttributes;
 
 
         private string GetCurrentDomainPath()
@@ -384,21 +383,16 @@ namespace pdfTest
         private void podesiAtributeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form4 fmAtr = new Form4();
-            DialogResult dr = fmAtr.ShowDialog(this);
-            if (dr == DialogResult.Cancel)
-            {
-                return;
-            }
-            else if (dr == DialogResult.OK)
-            {
-                listAdObjectAttributes = fmAtr.getAttributes();
-                fmAtr.Close();
-            }
+            fmAtr.ShowDialog(this);
+            fmAtr.Dispose();            
         }
 
         private void izveziKaoCsvToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            List<string> listAdObjectAttributes = new AdAttributeFileRW(Properties.Resources.adAttributesPath).
+                                                        AdAttributes.Where(x => x.Enabled == true).
+                                                        Select(x=>x.Name).
+                                                        ToList();
             foreach (Group grp in reportGroups)
             {
                 //Debug.WriteLine(grp.GroupName);
@@ -421,7 +415,7 @@ namespace pdfTest
                     {
                         strbuild.Append(item + ";");
                     }
-                    strbuild.Remove(strbuild.Length - 1, 1);
+                    strbuild.Remove(strbuild.Length - 1, 1);                //ukloni delimiter viska s kraja retka
                     strbuild.AppendLine();
                     foreach (SearchResult usr in results)
                     {
@@ -433,12 +427,12 @@ namespace pdfTest
                             strbuild.Append(";");
 
                         }
-                        strbuild.Remove(strbuild.Length - 1, 1);
+                        strbuild.Remove(strbuild.Length - 1, 1);            //ukloni delimiter viska s kraja retka
                         strbuild.AppendLine();
                     }
-                    strbuild.Remove(strbuild.Length - 2, 2);
+                    strbuild.Remove(strbuild.Length - 2, 2);                //ukloni zadnji /cr/lf
                     #if DEBUG
-                        Debug.WriteLine(strbuild);
+                        Debug.WriteLine("IzvezikaoCSV:" + strbuild);
                     #endif
                     System.IO.File.WriteAllText(@grp.GroupName + ".csv", strbuild.ToString());
                 }

@@ -71,8 +71,8 @@ namespace pdfTest
             secMain.PageSetup.RightMargin = "2cm";
 
             Table tbHeader = secMain.Headers.Primary.AddTable();
-            tbHeader.AddColumn(Unit.FromMillimeter(105));
-            tbHeader.AddColumn(Unit.FromMillimeter(60));
+            tbHeader.AddColumn(Unit.FromMillimeter(100));
+            tbHeader.AddColumn(Unit.FromMillimeter(65));
             Row rowHeader = tbHeader.AddRow();
             rowHeader.VerticalAlignment = VerticalAlignment.Center;
 
@@ -85,7 +85,10 @@ namespace pdfTest
             parHeaderText.Format = parFormatHeader.Clone();
 
             //image/logo header
-            Image headerPic = cellImgHeader.AddImage("logo.jpg");
+            System.Drawing.Image tempImg = Properties.Resources.logo;
+            tempImg.Save(@"logo.jpg");
+            Image headerPic = cellImgHeader.AddImage(@"logo.jpg");
+            //System.IO.File.Delete(@"logo.jpg");
             headerPic.Height = "2cm";
             headerPic.LockAspectRatio = true;
 
