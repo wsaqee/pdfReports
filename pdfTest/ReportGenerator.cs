@@ -54,7 +54,7 @@ namespace pdfTest
             tbFormatText.Font.Name = "Tahoma";
             tbFormatText.Font.Bold = false;
             tbFormatText.Font.Color = Colors.Black;
-            tbFormatText.Font.Size = "0.25cm";
+            tbFormatText.Font.Size = "7";
 
 
         }
@@ -259,10 +259,13 @@ namespace pdfTest
             if (usrEnabled == null) usrEnabled = "?";
             Table tb = tables.Where(x => x.Tag.ToString() == usrDomain+"\\"+tableName).First();
             Row rowMbr = tb.AddRow();
-            rowMbr.Format = tbFormatText.Clone();
-            rowMbr.Height = "0.4cm";
             rowMbr.Borders.Top.Width = 0;
             rowMbr.Borders.Bottom.Width = 0;
+            //rowMbr.Format = tbFormatText.Clone();
+            rowMbr.Format.Font.Size = "7";
+            if (tb.Rows.Count % 2 != 0) rowMbr.Shading.Color = Colors.LightGray;
+            else rowMbr.Shading.Color = Colors.White;
+            rowMbr.Height = "0.44cm";
             rowMbr.VerticalAlignment = VerticalAlignment.Center;
 
             Cell cellNum = rowMbr[0];
@@ -274,8 +277,8 @@ namespace pdfTest
             Cell cellUsrEnabled = rowMbr[5];
 
             cellNum.AddParagraph((tb.Rows.Count-2).ToString());
-            if (tb.Rows.Count % 2 != 0) rowMbr.Shading.Color = Colors.LightGray;
-            else rowMbr.Shading.Color = Colors.White;
+            
+
             cellNum.Format.Alignment = ParagraphAlignment.Center;
             //cellNum.Format.RightIndent = 8;
             cellNum.Format.Font.Bold = false;

@@ -21,6 +21,10 @@ namespace pdfTest
         public void ReadFile()
         {
             adAttributes.Clear();
+            if (System.IO.File.Exists(path) == false)
+            {
+                System.IO.File.WriteAllText(path, "ExampleAttribute1\tTrue\r\n");
+            }
             string[] attributes_lines = System.IO.File.ReadAllLines(path);
             foreach (string line in attributes_lines)
             {

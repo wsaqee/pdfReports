@@ -48,6 +48,7 @@
             this.podesiAtributeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.izveziKaoCsvToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.izlazToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -220,7 +221,8 @@
             this.postavkeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.podesiAtributeToolStripMenuItem,
             this.izveziKaoCsvToolStripMenuItem,
-            this.izlazToolStripMenuItem});
+            this.izlazToolStripMenuItem,
+            this.toolStripMenuItem1});
             this.postavkeToolStripMenuItem.Name = "postavkeToolStripMenuItem";
             this.postavkeToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
             this.postavkeToolStripMenuItem.Text = "Postavke";
@@ -228,22 +230,27 @@
             // podesiAtributeToolStripMenuItem
             // 
             this.podesiAtributeToolStripMenuItem.Name = "podesiAtributeToolStripMenuItem";
-            this.podesiAtributeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.podesiAtributeToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.podesiAtributeToolStripMenuItem.Text = "Podesi atribute";
             this.podesiAtributeToolStripMenuItem.Click += new System.EventHandler(this.podesiAtributeToolStripMenuItem_Click);
             // 
             // izveziKaoCsvToolStripMenuItem
             // 
             this.izveziKaoCsvToolStripMenuItem.Name = "izveziKaoCsvToolStripMenuItem";
-            this.izveziKaoCsvToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.izveziKaoCsvToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.izveziKaoCsvToolStripMenuItem.Text = "Izvezi kao csv";
             this.izveziKaoCsvToolStripMenuItem.Click += new System.EventHandler(this.izveziKaoCsvToolStripMenuItem_Click);
             // 
             // izlazToolStripMenuItem
             // 
             this.izlazToolStripMenuItem.Name = "izlazToolStripMenuItem";
-            this.izlazToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.izlazToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.izlazToolStripMenuItem.Text = "Izlaz";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             // 
             // Form1
             // 
@@ -255,6 +262,8 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximumSize = new System.Drawing.Size(679, 514);
+            this.MinimumSize = new System.Drawing.Size(679, 514);
             this.Name = "Form1";
             this.Text = "Form1";
             this.groupBox1.ResumeLayout(false);
@@ -290,6 +299,7 @@
         private System.Windows.Forms.ToolStripMenuItem podesiAtributeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem izveziKaoCsvToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem izlazToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 
