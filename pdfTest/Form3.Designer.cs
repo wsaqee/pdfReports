@@ -94,9 +94,11 @@
             this.Controls.Add(this.labelUsername);
             this.Controls.Add(this.textBoxUsername);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(474, 168);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(474, 168);
             this.Name = "Form3";
-            this.Text = "Form3";
+            this.Text = "Autorizacija korisnika-Prijava";
             this.ResumeLayout(false);
             this.PerformLayout();
 

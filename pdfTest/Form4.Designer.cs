@@ -46,7 +46,9 @@
             this.ClientSize = new System.Drawing.Size(386, 448);
             this.Controls.Add(this.checkedListAttributes);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(402, 487);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(402, 487);
             this.Name = "Form4";
             this.Text = "Atributi";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form4_FormClosing);

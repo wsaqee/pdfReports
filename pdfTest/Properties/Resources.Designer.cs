@@ -70,6 +70,33 @@ namespace pdfTest.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Autorizacija korisnika.
+        /// </summary>
+        internal static string appName {
+            get {
+                return ResourceManager.GetString("appName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AutorizacijaKorisnika.
+        /// </summary>
+        internal static string appProcessName {
+            get {
+                return ResourceManager.GetString("appProcessName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1.1.
+        /// </summary>
+        internal static string appVersion {
+            get {
+                return ResourceManager.GetString("appVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap logo {

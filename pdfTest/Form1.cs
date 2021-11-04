@@ -23,7 +23,7 @@ namespace pdfTest
         BindingList<Group> reportGroups = new BindingList<Group>();
         BindingList<Group> searchGroups = new BindingList<Group>();
         public static string reportName;
-
+        private bool displayNestedUsers = false;
 
         private string GetCurrentDomainPath()
         {
@@ -354,15 +354,66 @@ namespace pdfTest
                 DirectoryEntry entry = new DirectoryEntry(grp.EntryPath);
                 using (entry)
                 {
+                    //pronadi grupe:
                     DirectorySearcher searcher = new DirectorySearcher(entry);
-                    //searcher.Filter = "(&(memberOf:1.2.840.113556.1.4.1941:=" + grp.GroupDN + "))";
-                    searcher.Filter = "(&(memberOf=" + grp.GroupDN + "))";
+                    SearchResultCollection results;
+                    if (displayNestedUsers == false)
+                    {
+
+
+                        searcher.Filter = "(&(objectClass=group)(memberOf=" + grp.GroupDN + "))";
+                        searcher.PropertiesToLoad.Add("cn");
+                        searcher.PropertiesToLoad.Add("distinguishedName");
+                        searcher.PropertiesToLoad.Add("description");
+                        searcher.PropertiesToLoad.Add("mail");
+                        results = searcher.FindAll();
+
+                        List<ReportGroup> rptGroups = new List<ReportGroup>();
+                        ReportGroup rptGroup;
+                        foreach (SearchResult item in results)
+                        {
+                            rptGroup = new ReportGroup();
+                            if (item.Properties.Contains("cn") == true)
+                                rptGroup.Name = item.Properties["cn"][0].ToString();
+                            if (item.Properties.Contains("distinguishedName") == true)
+                                rptGroup.DN = item.Properties["distinguishedName"][0].ToString();
+                            if (item.Properties.Contains("description") == true)
+                                rptGroup.Description = item.Properties["description"][0].ToString();
+                            if (item.Properties.Contains("mail") == true)
+                                rptGroup.Mail = item.Properties["mail"][0].ToString();
+                            rptGroups.Add(rptGroup);
+                        }
+                        foreach (ReportGroup item in rptGroups.OrderBy(x => x.Name))
+                        {
+                            ReportGenerator.AddMember(grp.GroupDomain, grp.GroupName,
+                            item.Description, item.Name, item.Mail,
+                            "",
+                            "");
+
+#if DEBUG
+                            Debug.WriteLine("buttonPrintClick Group desc: {0}, " +
+                                "Name: {1}, " +
+                                "Email Address: {2}, ",
+                                item.Description, item.Name, item.Mail);
+#endif
+                        }
+                    }
+                    //pronadi korisnike:
+                    searcher = new DirectorySearcher(entry);
+                    if (displayNestedUsers == false)
+                    {
+                        searcher.Filter = "(&(objectClass=user)(memberOf=" + grp.GroupDN + "))";
+                    }
+                    else
+                    {
+                        searcher.Filter = "(&(objectClass=user)(memberOf:1.2.840.113556.1.4.1941:=" + grp.GroupDN + "))";
+                    }
                     searcher.PropertiesToLoad.Add("displayName");
                     searcher.PropertiesToLoad.Add("sAMAccountName");
                     searcher.PropertiesToLoad.Add("mail");
                     searcher.PropertiesToLoad.Add("department");
                     searcher.PropertiesToLoad.Add("enabled");
-                    SearchResultCollection results = searcher.FindAll();
+                    results = searcher.FindAll();
 
                     List<ReportUser> rptUsers = new List<ReportUser>();
                     ReportUser rptUser;
@@ -448,7 +499,14 @@ namespace pdfTest
                 using (entry)
                 {
                     DirectorySearcher searcher = new DirectorySearcher(entry);
-                    searcher.Filter = "(&(memberOf:1.2.840.113556.1.4.1941:=" + grp.GroupDN + "))";
+                    if (displayNestedUsers == true)
+                    {
+                        searcher.Filter = "(&(objectClass=user)(memberOf:1.2.840.113556.1.4.1941:=" + grp.GroupDN + "))";
+                    }
+                    else
+                    {
+                        searcher.Filter = "(&(memberOf=" + grp.GroupDN + "))";
+                    }
                     foreach (string item in listAdObjectAttributes)
                     {
                         searcher.PropertiesToLoad.Add(item);
@@ -484,6 +542,27 @@ namespace pdfTest
 
             }
 
+        }
+
+        private void verzijaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(Properties.Resources.appName + " v." + Properties.Resources.appVersion, "Verzija aplikacije", MessageBoxButtons.OK);
+        }
+
+        private void userGroupsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            displayNestedUsers = false;
+        }
+
+        private void nestedUsersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            displayNestedUsers = true;
+        }
+
+        private void prikazToolStripMenuItem_Paint(object sender, PaintEventArgs e)
+        {
+            nestedUsersToolStripMenuItem.Enabled = !displayNestedUsers;
+            userGroupsToolStripMenuItem.Enabled = displayNestedUsers;
         }
     }
 }

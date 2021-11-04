@@ -70,8 +70,10 @@
             this.Controls.Add(this.buttonAck);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxReportName);
+            this.MaximumSize = new System.Drawing.Size(473, 179);
+            this.MinimumSize = new System.Drawing.Size(473, 179);
             this.Name = "Form2";
-            this.Text = "Form2";
+            this.Text = "Autorizacija korisnika-Izvjestaj";
             this.ResumeLayout(false);
             this.PerformLayout();
 
