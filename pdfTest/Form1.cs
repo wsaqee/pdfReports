@@ -351,84 +351,62 @@ namespace pdfTest
             foreach (Group grp in reportGroups)
             {
                 ReportGenerator.CreateNewTable(grp.GroupDomain, grp.GroupName, grp.GroupDescription);
-                DirectoryEntry entry = new DirectoryEntry(grp.EntryPath);
-                using (entry)
+                //if grp is Local Group
+                if (grp.GroupDomain == Environment.MachineName)
                 {
-                    //pronadi grupe:
-                    DirectorySearcher searcher = new DirectorySearcher(entry);
-                    SearchResultCollection results;
-                    if (displayNestedUsers == false)
+                    GroupPrincipal localGroup = GroupPrincipal.FindByIdentity(new PrincipalContext(ContextType.Machine), grp.GroupName);
+                    PrincipalCollection principals = localGroup.Members;
+                    List<ReportUser> rptUsers = new List<ReportUser>();
+                    List<ReportGroup> rptGroups = new List<ReportGroup>();
+
+                    foreach (Principal item in principals)
                     {
-
-
-                        searcher.Filter = "(&(objectClass=group)(memberOf=" + grp.GroupDN + "))";
-                        searcher.PropertiesToLoad.Add("cn");
-                        searcher.PropertiesToLoad.Add("distinguishedName");
-                        searcher.PropertiesToLoad.Add("description");
-                        searcher.PropertiesToLoad.Add("mail");
-                        results = searcher.FindAll();
-
-                        List<ReportGroup> rptGroups = new List<ReportGroup>();
-                        ReportGroup rptGroup;
-                        foreach (SearchResult item in results)
+                        UserPrincipal usr = item as UserPrincipal;
+                        GroupPrincipal group = item as GroupPrincipal;
+                            //item is user
+                        if (usr != null)
                         {
-                            rptGroup = new ReportGroup();
-                            if (item.Properties.Contains("cn") == true)
-                                rptGroup.Name = item.Properties["cn"][0].ToString();
-                            if (item.Properties.Contains("distinguishedName") == true)
-                                rptGroup.DN = item.Properties["distinguishedName"][0].ToString();
-                            if (item.Properties.Contains("description") == true)
-                                rptGroup.Description = item.Properties["description"][0].ToString();
-                            if (item.Properties.Contains("mail") == true)
-                                rptGroup.Mail = item.Properties["mail"][0].ToString();
+                            ReportUser rptUsr = new ReportUser();
+                            rptUsr.DisplayName = usr.DisplayName;
+                            rptUsr.SAMAccountName = usr.SamAccountName;
+                            rptUsr.Department = "";
+                            rptUsr.Mail = "";
+                            rptUsr.Enabled = (bool)usr.Enabled;
+                            rptUsers.Add(rptUsr);    
+                        }
+                            //item is a group
+                        else if (group != null)
+                        {
+                            ReportGroup rptGroup = new ReportGroup();
+                            rptGroup.Description = group.Description;
+                            rptGroup.Name = group.Name;
+                            rptGroup.Mail = "";
                             rptGroups.Add(rptGroup);
                         }
-                        foreach (ReportGroup item in rptGroups.OrderBy(x => x.Name))
+                            //item is not a group nor user
+                        else
                         {
-                            ReportGenerator.AddMember(grp.GroupDomain, grp.GroupName,
-                            item.Description, item.Name, item.Mail,
-                            "",
-                            "");
-
 #if DEBUG
-                            Debug.WriteLine("buttonPrintClick Group desc: {0}, " +
-                                "Name: {1}, " +
-                                "Email Address: {2}, ",
-                                item.Description, item.Name, item.Mail);
+                            Debug.WriteLine("Btnprint, localGroup: " + grp.GroupName + ", item :" + item.Name +" unknown type");
+#else
+                MessageBox.Show("Btnprint, localGroup: " + grp.GroupName + ", item :" + item.Name +" unknown type");
 #endif
                         }
                     }
-                    //pronadi korisnike:
-                    searcher = new DirectorySearcher(entry);
-                    if (displayNestedUsers == false)
-                    {
-                        searcher.Filter = "(&(objectClass=user)(memberOf=" + grp.GroupDN + "))";
-                    }
-                    else
-                    {
-                        searcher.Filter = "(&(objectClass=user)(memberOf:1.2.840.113556.1.4.1941:=" + grp.GroupDN + "))";
-                    }
-                    searcher.PropertiesToLoad.Add("displayName");
-                    searcher.PropertiesToLoad.Add("sAMAccountName");
-                    searcher.PropertiesToLoad.Add("mail");
-                    searcher.PropertiesToLoad.Add("department");
-                    searcher.PropertiesToLoad.Add("enabled");
-                    results = searcher.FindAll();
 
-                    List<ReportUser> rptUsers = new List<ReportUser>();
-                    ReportUser rptUser;
-                    foreach (SearchResult usr in results)
+                    foreach (ReportGroup item in rptGroups.OrderBy(x => x.Name))
                     {
-                        rptUser = new ReportUser();
-                        if (usr.Properties.Contains("displayName") == true)
-                            rptUser.DisplayName = usr.Properties["displayName"][0].ToString();
-                        if (usr.Properties.Contains("sAMAccountName") == true)
-                            rptUser.SAMAccountName = usr.Properties["sAMAccountName"][0].ToString();
-                        if (usr.Properties.Contains("mail") == true)
-                            rptUser.Mail = usr.Properties["mail"][0].ToString();
-                        if (usr.Properties.Contains("enabled") == true)
-                            rptUser.Enabled = (bool)usr.Properties["enabled"][0];
-                        rptUsers.Add(rptUser);
+                        ReportGenerator.AddMember(grp.GroupDomain, grp.GroupName,
+                        item.Description, item.Name, item.Mail,
+                        "",
+                        "");
+
+#if DEBUG
+                        Debug.WriteLine("buttonPrintClick Group desc: {0}, " +
+                            "Name: {1}, " +
+                            "Email Address: {2}, ",
+                            item.Description, item.Name, item.Mail);
+#endif
                     }
                     foreach (ReportUser usr in rptUsers.OrderBy(x => x.DisplayName))
                     {
@@ -438,14 +416,114 @@ namespace pdfTest
                         usr.Enabled == true ? "Aktiviran" : "Deaktiviran");
 
 #if DEBUG
-                    Debug.WriteLine("buttonPrintClick Display Name: {0}, " +
-                        "SAMAccName: {1}, " +
-                        "Email Address: {2}, " +
-                        "Department: {3}" +
-                        "Enabled: {4}",
-                        usr.DisplayName, usr.SAMAccountName, usr.Mail, usr.Department, usr.Enabled);
+                        Debug.WriteLine("buttonPrintClick Display Name: {0}, " +
+                            "SAMAccName: {1}, " +
+                            "Email Address: {2}, " +
+                            "Department: {3}" +
+                            "Enabled: {4}",
+                            usr.DisplayName, usr.SAMAccountName, usr.Mail, usr.Department, usr.Enabled);
 #endif
                     }
+                }
+                else
+                {
+                    DirectoryEntry entry = new DirectoryEntry(grp.EntryPath);
+                    using (entry)
+                    {
+                        //pronadi grupe:
+                        DirectorySearcher searcher = new DirectorySearcher(entry);
+                        SearchResultCollection results;
+                        if (displayNestedUsers == false)
+                        {
+
+
+                            searcher.Filter = "(&(objectClass=group)(memberOf=" + grp.GroupDN + "))";
+                            searcher.PropertiesToLoad.Add("cn");
+                            searcher.PropertiesToLoad.Add("distinguishedName");
+                            searcher.PropertiesToLoad.Add("description");
+                            searcher.PropertiesToLoad.Add("mail");
+                            results = searcher.FindAll();
+
+                            List<ReportGroup> rptGroups = new List<ReportGroup>();
+                            ReportGroup rptGroup;
+                            foreach (SearchResult item in results)
+                            {
+                                rptGroup = new ReportGroup();
+                                if (item.Properties.Contains("cn") == true)
+                                    rptGroup.Name = item.Properties["cn"][0].ToString();
+                                if (item.Properties.Contains("distinguishedName") == true)
+                                    rptGroup.DN = item.Properties["distinguishedName"][0].ToString();
+                                if (item.Properties.Contains("description") == true)
+                                    rptGroup.Description = item.Properties["description"][0].ToString();
+                                if (item.Properties.Contains("mail") == true)
+                                    rptGroup.Mail = item.Properties["mail"][0].ToString();
+                                rptGroups.Add(rptGroup);
+                            }
+                            foreach (ReportGroup item in rptGroups.OrderBy(x => x.Name))
+                            {
+                                ReportGenerator.AddMember(grp.GroupDomain, grp.GroupName,
+                                item.Description, item.Name, item.Mail,
+                                "",
+                                "");
+
+#if DEBUG
+                                Debug.WriteLine("buttonPrintClick Group desc: {0}, " +
+                                    "Name: {1}, " +
+                                    "Email Address: {2}, ",
+                                    item.Description, item.Name, item.Mail);
+#endif
+                            }
+                        }
+                        //pronadi korisnike:
+                        searcher = new DirectorySearcher(entry);
+                        if (displayNestedUsers == false)
+                        {
+                            searcher.Filter = "(&(objectClass=user)(memberOf=" + grp.GroupDN + "))";
+                        }
+                        else
+                        {
+                            searcher.Filter = "(&(objectClass=user)(memberOf:1.2.840.113556.1.4.1941:=" + grp.GroupDN + "))";
+                        }
+                        searcher.PropertiesToLoad.Add("displayName");
+                        searcher.PropertiesToLoad.Add("sAMAccountName");
+                        searcher.PropertiesToLoad.Add("mail");
+                        searcher.PropertiesToLoad.Add("department");
+                        searcher.PropertiesToLoad.Add("enabled");
+                        results = searcher.FindAll();
+
+                        List<ReportUser> rptUsers = new List<ReportUser>();
+                        ReportUser rptUser;
+                        foreach (SearchResult usr in results)
+                        {
+                            rptUser = new ReportUser();
+                            if (usr.Properties.Contains("displayName") == true)
+                                rptUser.DisplayName = usr.Properties["displayName"][0].ToString();
+                            if (usr.Properties.Contains("sAMAccountName") == true)
+                                rptUser.SAMAccountName = usr.Properties["sAMAccountName"][0].ToString();
+                            if (usr.Properties.Contains("mail") == true)
+                                rptUser.Mail = usr.Properties["mail"][0].ToString();
+                            if (usr.Properties.Contains("enabled") == true)
+                                rptUser.Enabled = (bool)usr.Properties["enabled"][0];
+                            rptUsers.Add(rptUser);
+                        }
+                        foreach (ReportUser usr in rptUsers.OrderBy(x => x.DisplayName))
+                        {
+                            ReportGenerator.AddMember(grp.GroupDomain, grp.GroupName,
+                            usr.DisplayName, usr.SAMAccountName, usr.Mail,
+                            usr.Department,
+                            usr.Enabled == true ? "Aktiviran" : "Deaktiviran");
+
+#if DEBUG
+                            Debug.WriteLine("buttonPrintClick Display Name: {0}, " +
+                                "SAMAccName: {1}, " +
+                                "Email Address: {2}, " +
+                                "Department: {3}" +
+                                "Enabled: {4}",
+                                usr.DisplayName, usr.SAMAccountName, usr.Mail, usr.Department, usr.Enabled);
+#endif
+                        }
+                    }
+
                 }
 
             }
@@ -563,6 +641,11 @@ namespace pdfTest
         {
             nestedUsersToolStripMenuItem.Enabled = !displayNestedUsers;
             userGroupsToolStripMenuItem.Enabled = displayNestedUsers;
+        }
+
+        private void izlazToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
         }
     }
 }

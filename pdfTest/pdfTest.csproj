@@ -8,7 +8,7 @@
     <ProjectGuid>{B53FC3F4-8812-4AF0-AB3A-4E7693A701FC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>pdfTest</RootNamespace>
-    <AssemblyName>pdfTest</AssemblyName>
+    <AssemblyName>UsrAdministration</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

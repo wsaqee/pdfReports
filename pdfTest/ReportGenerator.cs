@@ -283,48 +283,48 @@ namespace pdfTest
             //cellNum.Format.RightIndent = 8;
             cellNum.Format.Font.Bold = false;
 
-            cellDispName.AddParagraph(dispName);
+            cellDispName.AddParagraph(WordWrap(dispName, int.Parse(Properties.Resources.maxRowCharsTbColDispName)));
             cellDispName.Format.Alignment = ParagraphAlignment.Center;
             //cellDispName.Format.LeftIndent = 5;
 
-            cellUserName.AddParagraph(usrName);
+            cellUserName.AddParagraph(WordWrap(usrName, int.Parse(Properties.Resources.maxRowCharsTbColUsrname)));
             cellUserName.Format.Alignment = ParagraphAlignment.Center;
 
 
-            int MAXCHARCOUNT_EMAIL = 35;
-            if (usrEmail.Length>0 && usrEmail.Length > MAXCHARCOUNT_EMAIL)
-            {
-                string[] mailDivAt = usrEmail.Split('@');
-                string[] mailNameDivDot = mailDivAt[0].Split('.');
+            //int MAXCHARCOUNT_EMAIL = 35;
+            //if (usrEmail.Length>0 && usrEmail.Length > MAXCHARCOUNT_EMAIL)
+            //{
+            //    string[] mailDivAt = usrEmail.Split('@');
+            //    string[] mailNameDivDot = mailDivAt[0].Split('.');
 
-                List<string> lines = new List<string>();
-                foreach (string s in mailNameDivDot)
-                {
-                    if (lines.Count == 0)
-                    {
-                        lines.Add(s);
-                        continue;
-                    }
-                    if (lines.Last().Length + s.Length > MAXCHARCOUNT_EMAIL)
-                        lines.Add("." + s);
-                    else
-                        lines[lines.Count - 1] += "." + s;
-                }
+            //    List<string> lines = new List<string>();
+            //    foreach (string s in mailNameDivDot)
+            //    {
+            //        if (lines.Count == 0)
+            //        {
+            //            lines.Add(s);
+            //            continue;
+            //        }
+            //        if (lines.Last().Length + s.Length > MAXCHARCOUNT_EMAIL)
+            //            lines.Add("." + s);
+            //        else
+            //            lines[lines.Count - 1] += "." + s;
+            //    }
 
-                if (lines.Last().Length + mailDivAt[1].Length > MAXCHARCOUNT_EMAIL)
-                    lines.Add("@" + mailDivAt[1]);
-                else
-                    lines[lines.Count - 1] += "@" + mailDivAt[1];
-                usrEmail = string.Join("\n", lines.ToArray());
-            }
+            //    if (lines.Last().Length + mailDivAt[1].Length > MAXCHARCOUNT_EMAIL)
+            //        lines.Add("@" + mailDivAt[1]);
+            //    else
+            //        lines[lines.Count - 1] += "@" + mailDivAt[1];
+            //    usrEmail = string.Join("\n", lines.ToArray());
+            //}
 
-            cellEmail.AddParagraph(usrEmail);
+            cellEmail.AddParagraph(WordWrap(usrEmail, int.Parse(Properties.Resources.maxRowCharsTbColMail)));
             cellEmail.Format.Alignment = ParagraphAlignment.Center;
 
             //cellCountry.AddParagraph(usrCountry);
             //cellCountry.Format.Alignment = ParagraphAlignment.Center;
 
-            cellDep.AddParagraph(usrDep);
+            cellDep.AddParagraph(WordWrap(usrDep, int.Parse(Properties.Resources.maxRowCharsTbColDep)));
             cellDep.Format.Alignment = ParagraphAlignment.Center;
 
             cellUsrEnabled.AddParagraph(usrEnabled);
@@ -378,6 +378,31 @@ namespace pdfTest
 
             string filename = reportName + ".pdf";
             pdfRenderer.PdfDocument.Save(filename);
+        }
+
+        private static string WordWrap (string input, int rowMaxChar)
+        {
+            
+            string output = input;
+
+            //podjeli na podstringove koji imaju ' '
+            //ako je bilo koji podstring veci od rowMaxChar onda dodaj ' ' na mjesto rowMaxChar
+
+            int maxRowLenght;
+            do
+            {
+                maxRowLenght = 0;
+                string[] words = output.Split(' ');
+                for (int i=0; i<words.Length; i++)
+                {
+                    int rowLenght = words[i].Length;
+                    if (rowLenght > rowMaxChar) words[i] = words[i].Insert(rowMaxChar - 1, " ");
+                    if (rowLenght > maxRowLenght) maxRowLenght = rowLenght;
+                }
+                output = string.Join(" ", words);
+            } while (maxRowLenght > rowMaxChar);
+
+            return output;
         }
 
 

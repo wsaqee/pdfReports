@@ -235,15 +235,16 @@
             // izveziKaoCsvToolStripMenuItem
             // 
             this.izveziKaoCsvToolStripMenuItem.Name = "izveziKaoCsvToolStripMenuItem";
-            this.izveziKaoCsvToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.izveziKaoCsvToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.izveziKaoCsvToolStripMenuItem.Text = "Izvezi kao csv";
             this.izveziKaoCsvToolStripMenuItem.Click += new System.EventHandler(this.izveziKaoCsvToolStripMenuItem_Click);
             // 
             // izlazToolStripMenuItem1
             // 
             this.izlazToolStripMenuItem1.Name = "izlazToolStripMenuItem1";
-            this.izlazToolStripMenuItem1.Size = new System.Drawing.Size(144, 22);
+            this.izlazToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.izlazToolStripMenuItem1.Text = "Izlaz";
+            this.izlazToolStripMenuItem1.Click += new System.EventHandler(this.izlazToolStripMenuItem1_Click);
             // 
             // postavkeToolStripMenuItem
             // 
@@ -257,7 +258,7 @@
             // podesiAtributeToolStripMenuItem
             // 
             this.podesiAtributeToolStripMenuItem.Name = "podesiAtributeToolStripMenuItem";
-            this.podesiAtributeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.podesiAtributeToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.podesiAtributeToolStripMenuItem.Text = "Podesi atribute";
             this.podesiAtributeToolStripMenuItem.Click += new System.EventHandler(this.podesiAtributeToolStripMenuItem_Click);
             // 
@@ -267,21 +268,21 @@
             this.nestedUsersToolStripMenuItem,
             this.userGroupsToolStripMenuItem});
             this.prikazToolStripMenuItem.Name = "prikazToolStripMenuItem";
-            this.prikazToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.prikazToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.prikazToolStripMenuItem.Text = "Prikaz";
             this.prikazToolStripMenuItem.Paint += new System.Windows.Forms.PaintEventHandler(this.prikazToolStripMenuItem_Paint);
             // 
             // nestedUsersToolStripMenuItem
             // 
             this.nestedUsersToolStripMenuItem.Name = "nestedUsersToolStripMenuItem";
-            this.nestedUsersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.nestedUsersToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.nestedUsersToolStripMenuItem.Text = "Nested users";
             this.nestedUsersToolStripMenuItem.Click += new System.EventHandler(this.nestedUsersToolStripMenuItem_Click);
             // 
             // userGroupsToolStripMenuItem
             // 
             this.userGroupsToolStripMenuItem.Name = "userGroupsToolStripMenuItem";
-            this.userGroupsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.userGroupsToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.userGroupsToolStripMenuItem.Text = "Users and Groups";
             this.userGroupsToolStripMenuItem.Click += new System.EventHandler(this.userGroupsToolStripMenuItem_Click);
             // 

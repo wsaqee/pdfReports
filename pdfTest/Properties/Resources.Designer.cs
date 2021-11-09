@@ -105,5 +105,41 @@ namespace pdfTest.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 17.
+        /// </summary>
+        internal static string maxRowCharsTbColDep {
+            get {
+                return ResourceManager.GetString("maxRowCharsTbColDep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 18.
+        /// </summary>
+        internal static string maxRowCharsTbColDispName {
+            get {
+                return ResourceManager.GetString("maxRowCharsTbColDispName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 31.
+        /// </summary>
+        internal static string maxRowCharsTbColMail {
+            get {
+                return ResourceManager.GetString("maxRowCharsTbColMail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 14.
+        /// </summary>
+        internal static string maxRowCharsTbColUsrname {
+            get {
+                return ResourceManager.GetString("maxRowCharsTbColUsrname", resourceCulture);
+            }
+        }
     }
 }
