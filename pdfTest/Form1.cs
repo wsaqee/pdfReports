@@ -158,7 +158,8 @@ namespace pdfTest
                     {
                         try
                         {
-                            entry = new DirectoryEntry("LDAP://" + searchDomain);
+                            //entry = new DirectoryEntry("LDAP://" + searchDomain);
+                            entry = new DirectoryEntry(@"LDAP://192.168.0.80", "mnestic", "mn2021.");
                             using (entry)
                             {
                                 DirectorySearcher searcher = new DirectorySearcher(entry);
@@ -427,7 +428,8 @@ namespace pdfTest
                 }
                 else
                 {
-                    DirectoryEntry entry = new DirectoryEntry(grp.EntryPath);
+                    DirectoryEntry entry = new DirectoryEntry(@"LDAP://192.168.0.80", "mnestic", "mn2021.");
+                    //DirectoryEntry entry = new DirectoryEntry(grp.EntryPath);
                     using (entry)
                     {
                         //pronadi grupe:
@@ -488,7 +490,7 @@ namespace pdfTest
                         searcher.PropertiesToLoad.Add("sAMAccountName");
                         searcher.PropertiesToLoad.Add("mail");
                         searcher.PropertiesToLoad.Add("department");
-                        searcher.PropertiesToLoad.Add("enabled");
+                        searcher.PropertiesToLoad.Add("UserAccountControl");
                         results = searcher.FindAll();
 
                         List<ReportUser> rptUsers = new List<ReportUser>();
@@ -502,8 +504,10 @@ namespace pdfTest
                                 rptUser.SAMAccountName = usr.Properties["sAMAccountName"][0].ToString();
                             if (usr.Properties.Contains("mail") == true)
                                 rptUser.Mail = usr.Properties["mail"][0].ToString();
-                            if (usr.Properties.Contains("enabled") == true)
-                                rptUser.Enabled = (bool)usr.Properties["enabled"][0];
+                            if (usr.Properties.Contains("department") == true)
+                                rptUser.Department = usr.Properties["department"][0].ToString();
+                            if (usr.Properties.Contains("UserAccountControl") == true)
+                                rptUser.Enabled = !Convert.ToBoolean(((int)usr.Properties["UserAccountControl"][0] & 0x0002)>>1);
                             rptUsers.Add(rptUser);
                         }
                         foreach (ReportUser usr in rptUsers.OrderBy(x => x.DisplayName))
