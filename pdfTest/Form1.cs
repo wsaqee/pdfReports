@@ -158,8 +158,7 @@ namespace pdfTest
                     {
                         try
                         {
-                            //entry = new DirectoryEntry("LDAP://" + searchDomain);
-                            entry = new DirectoryEntry(@"LDAP://192.168.0.80", "mnestic", "mn2021.");
+                            entry = new DirectoryEntry("LDAP://" + searchDomain);
                             using (entry)
                             {
                                 DirectorySearcher searcher = new DirectorySearcher(entry);
@@ -428,8 +427,7 @@ namespace pdfTest
                 }
                 else
                 {
-                    DirectoryEntry entry = new DirectoryEntry(@"LDAP://192.168.0.80", "mnestic", "mn2021.");
-                    //DirectoryEntry entry = new DirectoryEntry(grp.EntryPath);
+                    DirectoryEntry entry = new DirectoryEntry(grp.EntryPath);
                     using (entry)
                     {
                         //pronadi grupe:
